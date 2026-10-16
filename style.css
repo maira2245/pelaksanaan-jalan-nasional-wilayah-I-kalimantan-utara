@@ -1,0 +1,122 @@
+/* Font & Base Styles */
+body { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    background-color: #f8fafc; 
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Watermark Logo PUPR di Latar Belakang Utama */
+main {
+    position: relative;
+    background-image: url('LOGO.png');
+    background-repeat: no-repeat;
+    background-position: center 45%;
+    background-size: 380px auto;
+    background-attachment: local;
+}
+
+/* Membuat Kartu Sedikit Transparan (Glassmorphism Halus) Agar Watermark Tembus Pandang */
+.bg-white {
+    background-color: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(8px);
+}
+
+/* Custom Scrollbar Elegan */
+.custom-scrollbar::-webkit-scrollbar { 
+    width: 6px; 
+    height: 6px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-track { 
+    background: transparent; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb { 
+    background: #cbd5e1; 
+    border-radius: 99px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { 
+    background: #94a3b8; 
+}
+
+/* Micro Transitions & Animations */
+.tab-content {
+    animation: smoothSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes smoothSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Kartu Elegan (Efek Elevasi + Hover) */
+.card-hover {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover:hover {
+    transform: translateY(-3px);
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.08);
+}
+
+/* Hover Row Tabel */
+tbody tr:hover {
+    background-color: rgba(241, 245, 249, 0.6) !important;
+}
+
+/* Rules Cetak / Print Mode */
+@media print {
+    aside, 
+    header, 
+    .nav-item, 
+    button, 
+    #toast, 
+    .no-print,
+    #barangModal,
+    #transaksiModal {
+        display: none !important;
+    }
+
+    main {
+        background-image: none !important;
+    }
+
+    .bg-white {
+        background-color: #ffffff !important;
+    }
+    
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+    }
+    
+    main {
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    .tab-content {
+        display: block !important;
+        animation: none !important;
+    }
+
+    #view-dashboard, 
+    #view-master, 
+    #view-masuk, 
+    #view-keluar {
+        display: none !important;
+    }
+
+    #view-laporan {
+        display: block !important;
+    }
+}

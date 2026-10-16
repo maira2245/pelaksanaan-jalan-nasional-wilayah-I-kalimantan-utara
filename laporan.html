@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Rekapitulasi Stok Barang</title>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 15mm;
+            color: #000;
+            background: #fff;
+        }
+
+        /* Action Bar (Hanya tampil di layar monitor) */
+        .no-print {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .btn {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-back { background-color: #fff; color: #334155; border: 1px solid #cbd5e1; }
+        .btn-print { background-color: #0284c7; color: #fff; border: none; }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 15mm !important; }
+        }
+
+        /* Kop Surat Resmi PJN 1 Kaltara */
+        .kop-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none !important;
+            margin-bottom: 5px;
+        }
+        .kop-table td {
+            border: none !important;
+            padding: 0;
+            vertical-align: middle;
+        }
+        .kop-logo {
+            width: 75px;
+            height: auto;
+        }
+        .kop-text {
+            text-align: center;
+        }
+        .kop-text h4 {
+            margin: 0;
+            font-size: 11pt;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .kop-text h3 {
+            margin: 2px 0;
+            font-size: 11.5pt;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .kop-text p {
+            margin: 2px 0 0 0;
+            font-size: 7.5pt;
+        }
+
+        .line-hr {
+            border: none;
+            border-top: 2px solid #000;
+            margin: 5px 0 15px 0;
+        }
+
+        /* Judul Laporan */
+        .judul {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .judul h3 {
+            margin: 0;
+            font-size: 11pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .judul p {
+            margin: 3px 0 0 0;
+            font-size: 9.5pt;
+        }
+
+        /* Tabel Rekapitulasi Stok */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5pt;
+            margin-bottom: 25px;
+        }
+        .data-table, .data-table th, .data-table td {
+            border: 1px solid #000;
+        }
+        .data-table th {
+            background-color: #f2f2f2;
+            padding: 6px;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .data-table td {
+            padding: 5px;
+            vertical-align: middle;
+        }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+
+        /* Format Tanda Tangan */
+        .ttd-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .ttd-box {
+            float: right;
+            text-align: center;
+            width: 300px;
+            font-size: 9.5pt;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tombol Navigasi Layar Monitor -->
+    <div class="no-print">
+        <a href="index.html" class="btn btn-back">
+            <i data-lucide="arrow-left" style="width:14px; height:14px;"></i> Kembali ke Dashboard
+        </a>
+        <button onclick="window.print()" class="btn btn-print">
+            <i data-lucide="printer" style="width:14px; height:14px;"></i> Cetak Laporan / PDF
+        </button>
+    </div>
+
+    <!-- KOP SURAT RESMI -->
+    <table class="kop-table">
+        <tr>
+            <td width="15%" class="text-center">
+                <img src="LOGO.png" class="kop-logo" alt="Logo">
+            </td>
+            <td width="85%" class="kop-text">
+                <h4>KEMENTERIAN PEKERJAAN UMUM</h4>
+                <h3>DIREKTORAT JENDERAL BINA MARGA</h3>
+                <h4>BALAI PELAKSANAAN JALAN NASIONAL KALIMANTAN UTARA</h4>
+                <h3>SATUAN KERJA PELAKSANAAN JALAN NASIONAL WILAYAH I PROVINSI KALIMANTAN UTARA</h3>
+                <p>Kawasan Komplek Pertokoan Blok B, Kab. Bulungan, Kalimantan Utara 77212, email: satker_pjn1_kaltara@pu.go.id</p>
+            </td>
+        </tr>
+    </table>
+    
+    <hr class="line-hr">
+
+    <!-- JUDUL LAPORAN STOK -->
+    <div class="judul">
+        <h3>REKAPITULASI STOK FISIK BARANG GUDANG</h3>
+        <p id="periodeText">Per Tanggal: -</p>
+    </div>
+
+    <!-- TABEL UTAMA STOK -->
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th width="5%">NO</th>
+                <th width="15%">SKU / KODE</th>
+                <th width="35%">NAMA BARANG</th>
+                <th width="20%">KATEGORI</th>
+                <th width="12%">STOK FISIK</th>
+                <th width="13%">STATUS</th>
+            </tr>
+        </thead>
+        <tbody id="laporanTableBody">
+            <tr>
+                <td colspan="6" class="text-center">Memuat data...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- TANDA TANGAN REKAPITULASI -->
+    <div class="ttd-container">
+        <div class="ttd-box">
+            <p>Tanjung Selor, <span id="tglTtd">-- ---------- ----</span><br>
+            Kepala Satuan Kerja Pelaksanaan Jalan Nasional<br>
+            Wilayah I Prov. Kaltara</p>
+            <br><br><br>
+            <p><b><u>DAVID EKO MULYANTO, S.T., M.T.</u></b><br>
+            NIP. 19810529 200912 1 001</p>
+        </div>
+    </div>
+
+    <script>
+        if (window.lucide) lucide.createIcons();
+
+        // Tanggal Cetak Hari Ini
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('id-ID', {
+            day: 'numeric', month: 'long', year: 'numeric'
+        });
+        document.getElementById('tglTtd').innerText = formattedDate;
+        document.getElementById('periodeText').innerText = `Per Tanggal: ${formattedDate}`;
+
+        // Ambil Data Barang dari LocalStorage
+        function loadLaporanStok() {
+            const tbody = document.getElementById('laporanTableBody');
+            const dataBarang = JSON.parse(localStorage.getItem('gudang_barang_list')) || [];
+
+            if (dataBarang.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center">Tidak ada data stok barang.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = dataBarang.map((item, index) => {
+                let statusText = 'Cukup';
+                if (item.stok <= 0) {
+                    statusText = 'Habis';
+                } else if (item.stok <= item.minStok) {
+                    statusText = 'Menipis';
+                }
+
+                return `
+                    <tr>
+                        <td class="text-center">${index + 1}</td>
+                        <td class="text-center">${item.sku || '-'}</td>
+                        <td class="text-left">${item.nama || '-'}</td>
+                        <td class="text-left">${item.kategori || '-'}</td>
+                        <td class="text-center">${item.stok} ${item.satuan || ''}</td>
+                        <td class="text-center">${statusText}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        loadLaporanStok();
+    </script>
+</body>
+</html>
